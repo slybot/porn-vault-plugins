@@ -27,6 +27,6 @@
       "type": "String",
       "required": true,
       "description": "Folder to search hero images in"
-    },
+    }
   ]
 }

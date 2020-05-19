@@ -96,9 +96,9 @@ module.exports = async ({
   
   return {
       thumbnail: thumb_image,
-	  altThumbnail: alt_image,
-	  avatar: avatar_image,
-	  hero: hero_image,
+      altThumbnail: alt_image,
+      avatar: avatar_image,
+      hero: hero_image,
     };
   
   $log(`Found no picture for ${actorName}`);

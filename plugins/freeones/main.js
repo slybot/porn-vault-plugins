@@ -1,3 +1,7 @@
+function lowercase(str) {
+  return str.toLowerCase();
+}
+
 module.exports = async ({
   $createImage,
   args,
@@ -15,17 +19,21 @@ module.exports = async ({
     `Scraping freeones date for ${actorName}, dry mode: ${args.dry || false}...`
   );
 
-  const blacklist = args.blacklist || [];
+  const blacklist = (args.blacklist || []).map(lowercase);
   if (!args.blacklist) $log("No blacklist defined, returning everything...");
-  
+
+  function isBlacklisted(prop) {
+    return blacklist.includes(lowercase(prop));
+  }
+
   //Check imperial unit preference
   const imp_pref = args.useImperial;
   if (!imp_pref) {
-	  $log("Imperial preference not set. Using metric values...");
+    $log("Imperial preference not set. Using metric values...");
   } else {
-	  $log("Imperial preference indicated. Using imperial values...");
+    $log("Imperial preference indicated. Using imperial values...");
   }
-  
+
   /* const petiteThreshold = parseInt(args.petiteThreshold) || 160; */
 
   const url = `https://freeones.xxx/${actorName.replace(/ /g, "-")}/profile`;
@@ -39,7 +47,7 @@ module.exports = async ({
   const $ = $cheerio.load(html);
 
   function getNationality() {
-    if (blacklist.includes("nationality")) return {};
+    if (isBlacklisted("nationality")) return {};
     $log("Getting nationality...");
 
     const nat_sel = $(
@@ -61,7 +69,7 @@ module.exports = async ({
   }
 
   function getHeight() {
-    if (blacklist.includes("height")) return {};
+    if (isBlacklisted("height")) return {};
     $log("Getting height...");
 
     const htsel = $('[data-test="link_height"] .text-underline-always');
@@ -70,15 +78,15 @@ module.exports = async ({
     const rawht = $(htsel).text();
     const ht_cm = rawht.match(/\d+cm/)[0];
     if (!ht_cm) return {};
-	let hgt = parseInt(ht_cm.replace("cm", ""));
-	if (!imp_pref) return { Height: hgt };
-	hgt *= 0.033;
-	hgt = Math.round((hgt + Number.EPSILON) * 100) / 100;
-	return { height: hgt };
+    let hgt = parseInt(ht_cm.replace("cm", ""));
+    if (!imp_pref) return { height: hgt };
+    hgt *= 0.033;
+    hgt = Math.round((hgt + Number.EPSILON) * 100) / 100;
+    return { height: hgt };
   }
-  
+
   function getWeight() {
-    if (blacklist.includes("weight")) return {};
+    if (isBlacklisted("weight")) return {};
     $log("Getting weight...");
 
     const wtsel = $('[data-test="link_weight"] .text-underline-always');
@@ -87,51 +95,59 @@ module.exports = async ({
     const rawwt = $(wtsel).text();
     const wt_kg = rawwt.match(/\d+kg/)[0];
     if (!wt_kg) return {};
-	let wgt = parseInt(wt_kg.replace("kg", ""));
-	if (!imp_pref) return { Weight: wgt };
-	wgt *= 2.2;
-	wgt = Math.round((wgt + Number.EPSILON) * 100) / 100;
-	return { weight: wgt };
+    let wgt = parseInt(wt_kg.replace("kg", ""));
+    if (!imp_pref) return { weight: wgt };
+    wgt *= 2.2;
+    wgt = Math.round((wgt + Number.EPSILON) * 100) / 100;
+    return { weight: wgt };
   }
-  
+
   function getZodiac() {
-    if (blacklist.includes("zodiac")) return {};
+    if (isBlacklisted("zodiac")) return {};
     $log("Getting zodiac sign...");
 
     const zod_sel = $('[data-test="link_zodiac"] .text-underline-always');
     if (!zod_sel) return {};
-	const rawzod = $(zod_sel).text();
-	const zod_name = rawzod.split(" (")[0];
+    const rawzod = $(zod_sel).text();
+    const zod_name = rawzod.split(" (")[0];
 
-	return { zodiac: zod_name };
+    return { zodiac: zod_name };
   }
-  
+
   function getBirthplace() {
-    if (blacklist.includes("birthplace")) return {};
+    if (isBlacklisted("birthplace")) return {};
     $log("Getting birthplace...");
 
-    const bcity_sel = $('[data-test="section-personal-information"] a[href*="placeOfBirth"]');
-	const bcity_name = bcity_sel.length ? $(bcity_sel).attr("href").split("=").slice(-1)[0] : null;
-	let bplace = "";
-	if (!bcity_name) {
-		$log("No birthplace found")
-		return {}
-	} else {
-		const bstate_sel = $('[data-test="section-personal-information"] a[href*="province"]');
-		const bstate_name = bstate_sel.length ? $(bstate_sel).attr("href").split("=").slice(-1)[0] : null;
-		if (!bstate_name) {
-			$log("No birth province found, just city!");
-			bplace = bcity_name;
-			return { birthplace: bplace };
-		} else {
-			bplace = bcity_name + ', ' + bstate_name.split("-")[0].trim();
-			return { birthplace: bplace };
-		}
-	}
+    const bcity_sel = $(
+      '[data-test="section-personal-information"] a[href*="placeOfBirth"]'
+    );
+    const bcity_name = bcity_sel.length
+      ? $(bcity_sel).attr("href").split("=").slice(-1)[0]
+      : null;
+    let bplace = "";
+    if (!bcity_name) {
+      $log("No birthplace found");
+      return {};
+    } else {
+      const bstate_sel = $(
+        '[data-test="section-personal-information"] a[href*="province"]'
+      );
+      const bstate_name = bstate_sel.length
+        ? $(bstate_sel).attr("href").split("=").slice(-1)[0]
+        : null;
+      if (!bstate_name) {
+        $log("No birth province found, just city!");
+        bplace = bcity_name;
+        return { birthplace: bplace };
+      } else {
+        bplace = bcity_name + ", " + bstate_name.split("-")[0].trim();
+        return { birthplace: bplace };
+      }
+    }
   }
 
   function scrapeText(prop, selector) {
-    if (blacklist.includes(prop)) return {};
+    if (isBlacklisted(prop)) return {};
     $log(`Getting ${prop}...`);
 
     const el = $(selector);
@@ -142,7 +158,7 @@ module.exports = async ({
 
   async function getAvatar() {
     if (args.dry) return {};
-    if (blacklist.includes("avatar")) return {};
+    if (isBlacklisted("avatar")) return {};
     $log("Getting avatar...");
 
     const imgEl = $(".profile-header .img-fluid");
@@ -155,7 +171,7 @@ module.exports = async ({
   }
 
   function getAge() {
-    if (blacklist.includes("bornOn")) return {};
+    if (isBlacklisted("bornOn")) return {};
     $log("Getting age...");
 
     const aTag = $('[data-test="section-personal-information"] a');
@@ -175,18 +191,21 @@ module.exports = async ({
       return {};
     }
   }
-  
+
   function getAlias() {
-    if (blacklist.includes("aliases")) return {};
+    if (isBlacklisted("aliases")) return {};
     $log("Getting aliases...");
 
-    const alias_sel = $('[data-test="section-alias"] p[data-test*="p_aliases"]');
-	const alias_text = alias_sel.text();
-	const alias_name = alias_text && !/unknown/.test(alias_text) ? alias_text.trim() : null;
-	if (!alias_name) return {};
-	const alias_fin = alias_name.split(/,\s*/g);
-	
-	return { aliases: alias_fin };
+    const alias_sel = $(
+      '[data-test="section-alias"] p[data-test*="p_aliases"]'
+    );
+    const alias_text = alias_sel.text();
+    const alias_name =
+      alias_text && !/unknown/.test(alias_text) ? alias_text.trim() : null;
+    if (!alias_name) return {};
+    const alias_fin = alias_name.split(/,\s*/g);
+
+    return { aliases: alias_fin };
   }
 
   const custom = {
@@ -203,23 +222,23 @@ module.exports = async ({
       '[data-test="link_ethnicity"] .text-underline-always'
     ),
     ...getHeight(),
-	...getWeight(),
-	...getBirthplace(),
-	...getZodiac(),
+    ...getWeight(),
+    ...getBirthplace(),
+    ...getZodiac(),
   };
 
   const data = {
     ...getNationality(),
     ...getAge(),
-	...getAlias(),
+    ...getAlias(),
     ...(await getAvatar()),
     custom,
   };
 
   if (!blacklist.includes("labels")) {
     data.labels = [];
-    if (custom.hairColor) data.labels.push(`${custom.hairColor} Hair`);
-    if (custom.eyeColor) data.labels.push(`${custom.eyeColor} Eyes`);
+    if (custom["hair color"]) data.labels.push(`${custom["hair color"]} Hair`);
+    if (custom["eye color"]) data.labels.push(`${custom["eye color"]} Eyes`);
     if (custom.ethnicity) data.labels.push(custom.ethnicity);
     /* if (custom.height && custom.height <= petiteThreshold)
       data.labels.push("Petite"); */

@@ -15,10 +15,13 @@ describe("freeones", () => {
     console.log("Fetching freeones.xxx...");
     const result = await searchWhitney();
     expect(result.custom).to.deep.equal({
-      hairColor: "Brown",
-      eyeColor: "Hazel",
+      "hair color": "Brown",
+      "eye color": "Hazel",
       ethnicity: "Caucasian",
       height: 168,
+      weight: 57,
+      birthplace: "Oklahoma City, OK",
+      zodiac: "Virgo",
     });
     expect(result.nationality).to.equal("US");
     expect(result.bornOn).to.be.a("number");
@@ -29,15 +32,18 @@ describe("freeones", () => {
     expect(result.labels).to.contain("Caucasian");
   });
 
-  it("Search 'Whitney Wright', but without hairColor", async () => {
+  it("Search 'Whitney Wright', but without hair color", async () => {
     console.log("Fetching freeones.xxx...");
     const result = await searchWhitney({
-      blacklist: ["hairColor"],
+      blacklist: ["hair color"],
     });
     expect(result.custom).to.deep.equal({
-      eyeColor: "Hazel",
+      "eye color": "Hazel",
       ethnicity: "Caucasian",
       height: 168,
+      weight: 57,
+      birthplace: "Oklahoma City, OK",
+      zodiac: "Virgo",
     });
     expect(result.nationality).to.equal("US");
     expect(result.bornOn).to.be.a("number");
@@ -47,15 +53,18 @@ describe("freeones", () => {
     expect(result.labels).to.contain("Caucasian");
   });
 
-  it("Search 'Whitney Wright', but without eyeColor", async () => {
+  it("Search 'Whitney Wright', but without eye color", async () => {
     console.log("Fetching freeones.xxx...");
     const result = await searchWhitney({
-      blacklist: ["eyeColor"],
+      blacklist: ["eye color"],
     });
     expect(result.custom).to.deep.equal({
-      hairColor: "Brown",
+      "hair color": "Brown",
       ethnicity: "Caucasian",
       height: 168,
+      weight: 57,
+      birthplace: "Oklahoma City, OK",
+      zodiac: "Virgo",
     });
     expect(result.nationality).to.equal("US");
     expect(result.bornOn).to.be.a("number");
@@ -71,9 +80,12 @@ describe("freeones", () => {
       blacklist: ["ethnicity"],
     });
     expect(result.custom).to.deep.equal({
-      hairColor: "Brown",
-      eyeColor: "Hazel",
+      "hair color": "Brown",
+      "eye color": "Hazel",
       height: 168,
+      weight: 57,
+      birthplace: "Oklahoma City, OK",
+      zodiac: "Virgo",
     });
     expect(result.nationality).to.equal("US");
     expect(result.bornOn).to.be.a("number");
@@ -89,9 +101,12 @@ describe("freeones", () => {
       blacklist: ["height"],
     });
     expect(result.custom).to.deep.equal({
-      hairColor: "Brown",
-      eyeColor: "Hazel",
+      "hair color": "Brown",
+      "eye color": "Hazel",
       ethnicity: "Caucasian",
+      birthplace: "Oklahoma City, OK",
+      zodiac: "Virgo",
+      weight: 57,
     });
     expect(result.nationality).to.equal("US");
     expect(result.bornOn).to.be.a("number");
@@ -108,10 +123,13 @@ describe("freeones", () => {
       blacklist: ["avatar"],
     });
     expect(result.custom).to.deep.equal({
-      hairColor: "Brown",
-      eyeColor: "Hazel",
+      "hair color": "Brown",
+      "eye color": "Hazel",
       ethnicity: "Caucasian",
       height: 168,
+      weight: 57,
+      birthplace: "Oklahoma City, OK",
+      zodiac: "Virgo",
     });
     expect(result.nationality).to.equal("US");
     expect(result.bornOn).to.be.a("number");
@@ -128,10 +146,13 @@ describe("freeones", () => {
       blacklist: ["labels"],
     });
     expect(result.custom).to.deep.equal({
-      hairColor: "Brown",
-      eyeColor: "Hazel",
+      "hair color": "Brown",
+      "eye color": "Hazel",
       ethnicity: "Caucasian",
       height: 168,
+      weight: 57,
+      birthplace: "Oklahoma City, OK",
+      zodiac: "Virgo",
     });
     expect(result.nationality).to.equal("US");
     expect(result.bornOn).to.be.a("number");
@@ -145,10 +166,13 @@ describe("freeones", () => {
       blacklist: ["nationality"],
     });
     expect(result.custom).to.deep.equal({
-      hairColor: "Brown",
-      eyeColor: "Hazel",
+      "hair color": "Brown",
+      "eye color": "Hazel",
       ethnicity: "Caucasian",
       height: 168,
+      weight: 57,
+      birthplace: "Oklahoma City, OK",
+      zodiac: "Virgo",
     });
     expect(result.nationality).to.be.undefined;
     expect(result.bornOn).to.be.a("number");

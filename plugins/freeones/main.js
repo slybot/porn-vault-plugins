@@ -27,8 +27,8 @@ module.exports = async ({
   }
 
   //Check imperial unit preference
-  const imp_pref = args.useImperial;
-  if (!imp_pref) {
+  const useImperial = args.useImperial;
+  if (!useImperial) {
     $log("Imperial preference not set. Using metric values...");
   } else {
     $log("Imperial preference indicated. Using imperial values...");
@@ -50,16 +50,16 @@ module.exports = async ({
     if (isBlacklisted("nationality")) return {};
     $log("Getting nationality...");
 
-    const nat_sel = $(
+    const selector = $(
       '[data-test="section-personal-information"] a[href*="countryCode%5D"]'
     );
 
-    if (!nat_sel.length) {
+    if (!selector.length) {
       $log("Nationality not found");
       return {};
     }
 
-    const nationality = $(nat_sel).attr("href").split("=").slice(-1)[0];
+    const nationality = $(selector).attr("href").split("=").slice(-1)[0];
     if (!nationality) {
       return {};
     }
@@ -72,75 +72,75 @@ module.exports = async ({
     if (isBlacklisted("height")) return {};
     $log("Getting height...");
 
-    const htsel = $('[data-test="link_height"] .text-underline-always');
-    if (!htsel) return {};
+    const selector = $('[data-test="link_height"] .text-underline-always');
+    if (!selector) return {};
 
-    const rawht = $(htsel).text();
-    const ht_cm = rawht.match(/\d+cm/)[0];
-    if (!ht_cm) return {};
-    let hgt = parseInt(ht_cm.replace("cm", ""));
-    if (!imp_pref) return { height: hgt };
-    hgt *= 0.033;
-    hgt = Math.round((hgt + Number.EPSILON) * 100) / 100;
-    return { height: hgt };
+    const rawHeight = $(selector).text();
+    const cm = rawHeight.match(/\d+cm/)[0];
+    if (!cm) return {};
+    let height = parseInt(cm.replace("cm", ""));
+    if (!useImperial) return { height };
+    // Convert to imperial
+    height *= 0.033;
+    height = Math.round((height + Number.EPSILON) * 100) / 100;
+    return { height: height };
   }
 
   function getWeight() {
     if (isBlacklisted("weight")) return {};
     $log("Getting weight...");
 
-    const wtsel = $('[data-test="link_weight"] .text-underline-always');
-    if (!wtsel) return {};
+    const selector = $('[data-test="link_weight"] .text-underline-always');
+    if (!selector) return {};
 
-    const rawwt = $(wtsel).text();
-    const wt_kg = rawwt.match(/\d+kg/)[0];
-    if (!wt_kg) return {};
-    let wgt = parseInt(wt_kg.replace("kg", ""));
-    if (!imp_pref) return { weight: wgt };
-    wgt *= 2.2;
-    wgt = Math.round((wgt + Number.EPSILON) * 100) / 100;
-    return { weight: wgt };
+    const rawWeight = $(selector).text();
+    const kg = rawWeight.match(/\d+kg/)[0];
+    if (!kg) return {};
+    let weight = parseInt(kg.replace("kg", ""));
+    if (!useImperial) return { weight };
+    // Convert to imperial
+    weight *= 2.2;
+    weight = Math.round((weight + Number.EPSILON) * 100) / 100;
+    return { weight: weight };
   }
 
   function getZodiac() {
     if (isBlacklisted("zodiac")) return {};
     $log("Getting zodiac sign...");
 
-    const zod_sel = $('[data-test="link_zodiac"] .text-underline-always');
-    if (!zod_sel) return {};
-    const rawzod = $(zod_sel).text();
-    const zod_name = rawzod.split(" (")[0];
-
-    return { zodiac: zod_name };
+    const selector = $('[data-test="link_zodiac"] .text-underline-always');
+    if (!selector) return {};
+    const zodiacText = $(selector).text();
+    const zodiac = zodiacText.split(" (")[0];
+    return { zodiac };
   }
 
   function getBirthplace() {
     if (isBlacklisted("birthplace")) return {};
     $log("Getting birthplace...");
 
-    const bcity_sel = $(
+    const selector = $(
       '[data-test="section-personal-information"] a[href*="placeOfBirth"]'
     );
-    const bcity_name = bcity_sel.length
-      ? $(bcity_sel).attr("href").split("=").slice(-1)[0]
+    const cityName = selector.length
+      ? $(selector).attr("href").split("=").slice(-1)[0]
       : null;
-    let bplace = "";
-    if (!bcity_name) {
+
+    if (!cityName) {
       $log("No birthplace found");
       return {};
     } else {
-      const bstate_sel = $(
+      const stateSelector = $(
         '[data-test="section-personal-information"] a[href*="province"]'
       );
-      const bstate_name = bstate_sel.length
-        ? $(bstate_sel).attr("href").split("=").slice(-1)[0]
+      const stateName = stateSelector.length
+        ? $(stateSelector).attr("href").split("=").slice(-1)[0]
         : null;
-      if (!bstate_name) {
+      if (!stateName) {
         $log("No birth province found, just city!");
-        bplace = bcity_name;
-        return { birthplace: bplace };
+        return { birthplace: cityName };
       } else {
-        bplace = bcity_name + ", " + bstate_name.split("-")[0].trim();
+        let bplace = cityName + ", " + stateName.split("-")[0].trim();
         return { birthplace: bplace };
       }
     }

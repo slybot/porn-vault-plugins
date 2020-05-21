@@ -2,6 +2,16 @@ function lowercase(str) {
   return str.toLowerCase();
 }
 
+function cmToFt(cm) {
+  cm *= 0.033;
+  return Math.round((cm + Number.EPSILON) * 100) / 100;
+}
+
+function kgToLbs(kg) {
+  kg *= 2.2;
+  return Math.round((kg + Number.EPSILON) * 100) / 100;
+}
+
 module.exports = async ({
   $createImage,
   args,
@@ -80,10 +90,9 @@ module.exports = async ({
     if (!cm) return {};
     let height = parseInt(cm.replace("cm", ""));
     if (!useImperial) return { height };
+
     // Convert to imperial
-    height *= 0.033;
-    height = Math.round((height + Number.EPSILON) * 100) / 100;
-    return { height: height };
+    return { height: cmToFt(height) };
   }
 
   function getWeight() {
@@ -98,10 +107,9 @@ module.exports = async ({
     if (!kg) return {};
     let weight = parseInt(kg.replace("kg", ""));
     if (!useImperial) return { weight };
+
     // Convert to imperial
-    weight *= 2.2;
-    weight = Math.round((weight + Number.EPSILON) * 100) / 100;
-    return { weight: weight };
+    return { weight: kgToLbs(weight) };
   }
 
   function getZodiac() {

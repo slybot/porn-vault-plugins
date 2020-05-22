@@ -14,7 +14,7 @@ module.exports = async ({
 
   if (!resolvedPath) $throw("Missing folder path!");
 
-  const exts = [".jpg", ".png"];
+  const exts = [".jpg", ".png", ".jpeg", ".gif"];
 
   $log(`Trying to find picture of ${actorName} in ${resolvedPath}`);
 
@@ -31,7 +31,7 @@ module.exports = async ({
       true
     );
     return {
-      [args.target || thumbnail]: image,
+      [args.target || "thumbnail"]: image,
     };
   }
   $log(`Found no picture for ${actorName}`);

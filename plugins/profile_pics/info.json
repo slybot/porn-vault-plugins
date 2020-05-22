@@ -1,6 +1,6 @@
 {
   "name": "profile_pics",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "authors": ["boi123212321"],
   "description": "Find actor images based on local files",
   "arguments": [

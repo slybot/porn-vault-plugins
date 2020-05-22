@@ -1,4 +1,4 @@
-## profile_pics 1.0.0
+## profile_pics 1.0.1
 
 by boi123212321
 

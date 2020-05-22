@@ -10,97 +10,42 @@ module.exports = async ({
   if (!actorName)
     $throw("Uh oh. You shouldn't use the plugin for this type of event");
 
-  const thumbPath = $path.resolve(args.path_thumb);
-  const altPath = $path.resolve(args.path_alt);
-  const avatarPath = $path.resolve(args.path_avatar);
-  const heroPath = $path.resolve(args.path_hero);
-
-  if (!thumbPath) $throw("Missing thumbnail folder path!");
-  if (!altPath) $throw("Missing alt-thumbnail folder path!");
-  if (!avatarPath) $throw("Missing avatar folder path!");
-  if (!heroPath) $throw("Missing hero folder path!");
-
   const exts = [".jpg", ".png", ".jpeg", ".gif"];
 
-  $log(`Trying to find thumbnail pictures of ${actorName} in ${thumbPath}`);
+  async function scanFolder(partial, prop) {
+    if (!partial) {
+      $log(`No ${prop} path defined`);
+      return {};
+    }
 
-  const thumbfiles = $fs.readdirSync(thumbPath);
-  const thumbhit = thumbfiles.find((thumbname) =>
-    thumbname.toLowerCase().includes(actorName.toLowerCase())
-  );
-  
-  $log(`Trying to find alt thumbnail pictures of ${actorName} in ${altPath}`);
-  
-  const altfiles = $fs.readdirSync(altPath);
-  const althit = altfiles.find((altname) =>
-    altname.toLowerCase().includes(actorName.toLowerCase())
-  );
-  
-  $log(`Trying to find avatar pictures of ${actorName} in ${avatarPath}`);
+    const path = $path.resolve(partial);
 
-  const avatarfiles = $fs.readdirSync(avatarPath);
-  const avatarhit = avatarfiles.find((avatarname) =>
-    avatarname.toLowerCase().includes(actorName.toLowerCase())
-  );
-  
-  $log(`Trying to find hero pictures of ${actorName} in ${heroPath}`);
-  
-  const herofiles = $fs.readdirSync(heroPath);
-  const herohit = herofiles.find((heroname) =>
-    heroname.toLowerCase().includes(actorName.toLowerCase())
-  );
+    $log(`Trying to find ${prop} pictures of ${actorName} in ${path}`);
 
-  //Thumbnail definition
+    const files = $fs.readdirSync(path);
+    const hit = files.find((name) =>
+      name.toLowerCase().includes(actorName.toLowerCase())
+    );
 
-  if (thumbhit && exts.some((ext) => thumbhit.endsWith(ext))) {
-    $log(`Found thumbnail picture for ${actorName}`);
-    var thumb_image = await $createLocalImage(
-      $path.join(thumbPath, thumbhit),
-      actorName,
-      true
-    );
+    if (hit && exts.some((ext) => hit.endsWith(ext))) {
+      $log(`Found ${prop} picture for ${actorName}`);
+      var image = await $createLocalImage(
+        $path.join(path, hit),
+        actorName,
+        true
+      );
+      return {
+        [prop]: image,
+      };
+    }
+
+    return {};
   }
-  
-  //Alt Thumbnail definition
-  
-  if (althit && exts.some((ext) => althit.endsWith(ext))) {
-    $log(`Found alt thumbnail picture for ${actorName}`);
-    var alt_image = await $createLocalImage(
-      $path.join(altPath, althit),
-      actorName,
-      true
-    );
-  }
-  
-  //Avatar definition
-  
-  if (avatarhit && exts.some((ext) => avatarhit.endsWith(ext))) {
-    $log(`Found avatar picture for ${actorName}`);
-    var avatar_image = await $createLocalImage(
-      $path.join(avatarPath, avatarhit),
-      actorName,
-      true
-    );
-  }
-  
-  //Hero definition
-  
-  if (herohit && exts.some((ext) => herohit.endsWith(ext))) {
-    $log(`Found hero picture for ${actorName}`);
-    var hero_image = await $createLocalImage(
-      $path.join(heroPath, herohit),
-      actorName,
-      true
-    );
-  }
-  
+
   return {
-      thumbnail: thumb_image,
-      altThumbnail: alt_image,
-      avatar: avatar_image,
-      hero: hero_image,
-    };
-  
-  $log(`Found no picture for ${actorName}`);
-  return {};
+    ...(await scanFolder(args["path_thumb"], "thumbnail")),
+    ...(await scanFolder(args["path_alt"], "altThumbnail")),
+    ...(await scanFolder(args["path_avatar"], "avatar")),
+    ...(await scanFolder(args["path_hero"], "hero")),
+  };
 };

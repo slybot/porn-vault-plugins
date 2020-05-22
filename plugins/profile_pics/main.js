@@ -20,7 +20,7 @@ module.exports = async ({
   if (!avatarPath) $throw("Missing avatar folder path!");
   if (!heroPath) $throw("Missing hero folder path!");
 
-  const exts = [".jpg", ".png", ".gif"];
+  const exts = [".jpg", ".png", ".jpeg", ".gif"];
 
   $log(`Trying to find thumbnail pictures of ${actorName} in ${thumbPath}`);
 

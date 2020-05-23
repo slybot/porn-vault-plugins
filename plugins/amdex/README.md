@@ -122,126 +122,126 @@ Thanks @john4valor for help with TPDB and FreeOnes
 Please use the following as your initial plugin configuration and then change settings as desired.
 
 ### JSON Format
-&#x60;&#x60;&#x60;json
-&quot;PLUGINS&quot;: {
-    &quot;AmDeX&quot;: {
-        &quot;path&quot;: &quot;./plugins/amdex.js&quot;,
-        &quot;args&quot;: {
-            &quot;debug&quot;: false,
-            &quot;set_dateofbirth&quot;: true,
-            &quot;set_avatar&quot;: true,
-            &quot;set_nationality&quot;: true,
-            &quot;set_thumbnail&quot;: true,
-            &quot;set_alt_thumbnail&quot;: true,
-            &quot;set_hero_img&quot;: true,
-            &quot;use_thumbnail_as_avatar_if_not_available&quot;: false,
-            &quot;set_alias&quot;: true,
-            &quot;set_bio&quot;: true,
-            &quot;dateofbirth_source&quot;: &quot;freeones&quot;,
-            &quot;bio_source&quot;: &quot;pornhub&quot;,
-            &quot;avatar_source&quot;: &quot;freeones&quot;,
-            &quot;thumbnail_source&quot;: &quot;babepedia&quot;,
-            &quot;alt_thumbnail_source&quot;: &quot;babepedia&quot;,
-            &quot;hero_img_source&quot;: &quot;pornhub&quot;,
-            &quot;set_first_gif_as_hero_img&quot;: false,
-            &quot;use_gif_as_hero_if_heroimg_not_available&quot;: true,
-            &quot;nationality_source&quot;: &quot;freeones&quot;,
-            &quot;use_next_source_on_failure&quot;: false,
-            &quot;prefer_metric&quot;: false,
-            &quot;source_settings&quot;: {
-                &quot;freeones&quot;: {
-                    &quot;enabled&quot;: true,
-                    &quot;get_aliases&quot;: true,
-                    &quot;custom_field_map&quot;: {
-                        &quot;birthplace&quot;: &quot;&quot;,
-                        &quot;eye_color&quot; : &quot;&quot;,
-                        &quot;ethnicity&quot; : &quot;&quot;,
-                        &quot;hair_colour&quot; : &quot;&quot;
+```json
+"PLUGINS": {
+    "AmDeX": {
+        "path": "./plugins/amdex.js",
+        "args": {
+            "debug": false,
+            "set_dateofbirth": true,
+            "set_avatar": true,
+            "set_nationality": true,
+            "set_thumbnail": true,
+            "set_alt_thumbnail": true,
+            "set_hero_img": true,
+            "use_thumbnail_as_avatar_if_not_available": false,
+            "set_alias": true,
+            "set_bio": true,
+            "dateofbirth_source": "freeones",
+            "bio_source": "pornhub",
+            "avatar_source": "freeones",
+            "thumbnail_source": "babepedia",
+            "alt_thumbnail_source": "babepedia",
+            "hero_img_source": "pornhub",
+            "set_first_gif_as_hero_img": false,
+            "use_gif_as_hero_if_heroimg_not_available": true,
+            "nationality_source": "freeones",
+            "use_next_source_on_failure": false,
+            "prefer_metric": false,
+            "source_settings": {
+                "freeones": {
+                    "enabled": true,
+                    "get_aliases": true,
+                    "custom_field_map": {
+                        "birthplace": "",
+                        "eye_color" : "",
+                        "ethnicity" : "",
+                        "hair_colour" : ""
                     }
                 },
-                &quot;babepedia&quot;: {
-                    &quot;enabled&quot;: true,
-                    &quot;get_aliases&quot;: true,
-                    &quot;custom_field_map&quot;: {}
+                "babepedia": {
+                    "enabled": true,
+                    "get_aliases": true,
+                    "custom_field_map": {}
                 },
-                &quot;tpdb&quot;: {
-                    &quot;enabled&quot;: true,
-                    &quot;extract_only_if_source_matches_name_exactly&quot;: true,
-                    &quot;get_performer_bio&quot;: true,
-                    &quot;get_all_bios&quot;: false,
-                    &quot;get_aliases&quot;: true,
-                    &quot;get_all_images&quot;: false,
-                    &quot;custom_field_map&quot;: {
-                        &quot;gender&quot;: &quot;&quot;,
-                        &quot;birthplace&quot;: &quot;&quot;,
-                        &quot;active&quot;: &quot;&quot;,
-                        &quot;astrology&quot;: &quot;&quot;,
-                        &quot;ethnicity&quot;: &quot;&quot;,
-                        &quot;hair_colour&quot;: &quot;&quot;,
-                        &quot;weight&quot;: &quot;&quot;,
-                        &quot;height&quot;: &quot;&quot;,
-                        &quot;measurements&quot;: &quot;&quot;,
-                        &quot;cupsize&quot;: &quot;&quot;,
-                        &quot;tattoos&quot;: &quot;&quot;,
-                        &quot;piercings&quot;: &quot;&quot;,
-                        &quot;waist&quot;: &quot;&quot;,
-                        &quot;hips&quot;: &quot;&quot;,
-                        &quot;chest_size&quot;: &quot;&quot;
+                "tpdb": {
+                    "enabled": true,
+                    "extract_only_if_source_matches_name_exactly": true,
+                    "get_performer_bio": true,
+                    "get_all_bios": false,
+                    "get_aliases": true,
+                    "get_all_images": false,
+                    "custom_field_map": {
+                        "gender": "",
+                        "birthplace": "",
+                        "active": "",
+                        "astrology": "",
+                        "ethnicity": "",
+                        "hair_colour": "",
+                        "weight": "",
+                        "height": "",
+                        "measurements": "",
+                        "cupsize": "",
+                        "tattoos": "",
+                        "piercings": "",
+                        "waist": "",
+                        "hips": "",
+                        "chest_size": ""
                     }
                 },
-                &quot;wikiporno&quot;: {
-                    &quot;enabled&quot;: true,
-                    &quot;get_aliases&quot;: false,
-                    &quot;custom_field_map&quot;: {
-                        &quot;measurements&quot;: &quot;&quot;,
-                        &quot;cupsize&quot;: &quot;&quot;,
-                        &quot;tattoos&quot;: &quot;&quot;,
-                        &quot;piercings&quot;: &quot;&quot;,
-                        &quot;birthplace&quot;: &quot;&quot;,
-                        &quot;weight&quot;: &quot;&quot;,
-                        &quot;height&quot;: &quot;&quot;,
-                        &quot;eyeColor&quot;: &quot;&quot;,
-                        &quot;hairColor&quot;: &quot;&quot;,
-                        &quot;ethnicity&quot;: &quot;&quot;,
-                        &quot;astrology&quot;: &quot;&quot;,
-                        &quot;years_active&quot;: &quot;&quot;,
-                        &quot;waist&quot;: &quot;&quot;,
-                        &quot;hips&quot;: &quot;&quot;,
-                        &quot;chest_size&quot;: &quot;&quot;,
-                        &quot;twitter&quot;: &quot;&quot;
+                "wikiporno": {
+                    "enabled": true,
+                    "get_aliases": false,
+                    "custom_field_map": {
+                        "measurements": "",
+                        "cupsize": "",
+                        "tattoos": "",
+                        "piercings": "",
+                        "birthplace": "",
+                        "weight": "",
+                        "height": "",
+                        "eyeColor": "",
+                        "hairColor": "",
+                        "ethnicity": "",
+                        "astrology": "",
+                        "years_active": "",
+                        "waist": "",
+                        "hips": "",
+                        "chest_size": "",
+                        "twitter": ""
                     }
                 },
-                &quot;pornhub&quot;: {
-                    &quot;enabled&quot;: true,
-                    &quot;get_gifs&quot;: true,
-                    &quot;download_gifs_max_count&quot;: 2,
-                    &quot;custom_field_map&quot;: {
-                        &quot;birthplace&quot;: &quot;&quot;,
-                        &quot;height&quot;: &quot;&quot;,
-                        &quot;weight&quot;: &quot;&quot;
+                "pornhub": {
+                    "enabled": true,
+                    "get_gifs": true,
+                    "download_gifs_max_count": 2,
+                    "custom_field_map": {
+                        "birthplace": "",
+                        "height": "",
+                        "weight": ""
                     }
                 }
             }
         }
     }
 },
-&quot;PLUGIN_EVENTS&quot;: {
-    &quot;actorCreated&quot;: [
-        &quot;AmDeX&quot;
+"PLUGIN_EVENTS": {
+    "actorCreated": [
+        "AmDeX"
     ],
-    &quot;actorCustom&quot;: [
-        &quot;AmDeX&quot;
+    "actorCustom": [
+        "AmDeX"
     ]
 }
-&#x60;&#x60;&#x60;
+```
 
 ### YAML Format
 
-&#x60;&#x60;&#x60;yaml
+```yaml
     ---
     PLUGINS:
       AmDeX:
-        path: &quot;./plugins/amdex.js&quot;
+        path: "./plugins/amdex.js"
         args:
           debug: false
           set_dateofbirth: true
@@ -269,10 +269,10 @@ Please use the following as your initial plugin configuration and then change se
               enabled: true
               get_aliases: true
               custom_field_map:
-                birthplace: &#x27;&#x27;
-                eye_color: &#x27;&#x27;
-                ethnicity: &#x27;&#x27;
-                hair_colour: &#x27;&#x27;
+                birthplace: ''
+                eye_color: ''
+                ethnicity: ''
+                hair_colour: ''
             babepedia:
               enabled: true
               get_aliases: true
@@ -285,56 +285,57 @@ Please use the following as your initial plugin configuration and then change se
               get_aliases: true
               get_all_images: false
               custom_field_map:
-                gender: &#x27;&#x27;
-                birthplace: &#x27;&#x27;
-                active: &#x27;&#x27;
-                astrology: &#x27;&#x27;
-                ethnicity: &#x27;&#x27;
-                hair_colour: &#x27;&#x27;
-                weight: &#x27;&#x27;
-                height: &#x27;&#x27;
-                measurements: &#x27;&#x27;
-                cupsize: &#x27;&#x27;
-                tattoos: &#x27;&#x27;
-                piercings: &#x27;&#x27;
-                waist: &#x27;&#x27;
-                hips: &#x27;&#x27;
-                chest_size: &#x27;&#x27;
+                gender: ''
+                birthplace: ''
+                active: ''
+                astrology: ''
+                ethnicity: ''
+                hair_colour: ''
+                weight: ''
+                height: ''
+                measurements: ''
+                cupsize: ''
+                tattoos: ''
+                piercings: ''
+                waist: ''
+                hips: ''
+                chest_size: ''
             wikiporno:
                 enabled: true
                 get_aliases: false
                 custom_field_map:
-                    measurements: &#x27;&#x27;
-                    cupsize: &#x27;&#x27;
-                    tattoos&quot;: &#x27;&#x27;
-                    piercings: &#x27;&#x27;
-                    birthplace: &#x27;&#x27;
-                    weight: &#x27;&#x27;
-                    height: &#x27;&#x27;
-                    eyeColor: &#x27;&#x27;
-                    hairColor: &#x27;&#x27;
-                    ethnicity: &#x27;&#x27;
-                    astrology: &#x27;&#x27;
-                    years_active: &#x27;&#x27;
-                    waist: &#x27;&#x27;
-                    hips: &#x27;&#x27;
-                    chest_size: &#x27;&#x27;
-                    twitter: &#x27;&#x27;
+                    measurements: ''
+                    cupsize: ''
+                    tattoos": ''
+                    piercings: ''
+                    birthplace: ''
+                    weight: ''
+                    height: ''
+                    eyeColor: ''
+                    hairColor: ''
+                    ethnicity: ''
+                    astrology: ''
+                    years_active: ''
+                    waist: ''
+                    hips: ''
+                    chest_size: ''
+                    twitter: ''
             pornhub:
                 enabled: true
                 get_gifs: true
                 download_gifs_max_count: 2
                 custom_field_map:
-                    birthplace: &#x27;&#x27;
-                    height: &#x27;&#x27;
-                    weight: &#x27;&#x27;
+                    birthplace: ''
+                    height: ''
+                    weight: ''
 
       PLUGIN_EVENTS:
         actorCreated:
             - AmDeX
         actorCustom:
             - AmDeX
-&#x60;&#x60;&#x60;
+```
+
 ### Arguments
 
 | Name                                                             | Type    | Required | Description                                                                                                 |

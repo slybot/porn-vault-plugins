@@ -1,0 +1,518 @@
+{
+  "name": "amdex",
+  "version": "1.6",
+  "authors": ["slybot"],
+  "description": "Actor MetaData EXtraction from multiple sources. See documentation section for more details.",
+  "arguments": [
+    {
+      "name": "debug",
+      "type": "Boolean",
+      "required": true,
+      "description": "DEBUG Mode. Outputs all extracted data on console without saving the data against the actor (except images)"
+    },
+    {
+      "name": "set_dateofbirth",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set Date of Birth"
+    },
+    {
+      "name": "set_avatar",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set Avatar Image"
+    },
+    {
+      "name": "set_nationality",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set Nationality information (displayed as a flag in UI)"
+    },
+    {
+      "name": "set_thumbnail",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set actor thumbnail"
+    },
+    {
+      "name": "set_alt_thumbnail",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set alternate thumbnail image for actor"
+    },
+    {
+      "name": "set_hero_img",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set cover image as a banner in the actor UI"
+    },
+    {
+      "name": "set_first_gif_as_hero_img",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set a GIF as the hero cover banner"
+    },
+    {
+      "name": "use_gif_as_hero_if_heroimg_not_available",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set GIF as the hero cover banner ONLY IF static banner image is not available"
+    },
+    {
+      "name": "use_thumbnail_as_avatar_if_not_available",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set thumbnail as avatar image if avatar image is not available"
+    },
+    {
+      "name": "set_alias",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set Actor Aliases"
+    },
+    {
+      "name": "set_bio",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extract and set Actor Biography"
+    },
+    {
+      "name": "dateofbirth_source",
+      "type": "Boolean",
+      "required": true,
+      "description": "Preferred Source for Date of Birth Information"
+    },
+    {
+      "name": "bio_source",
+      "type": "Boolean",
+      "required": true,
+      "description": "Preferred Source for Actor Bio"
+    },
+    {
+      "name": "avatar_source",
+      "type": "Boolean",
+      "required": true,
+      "description": "Preferred Source for Actor Avatar Image"
+    },
+    {
+      "name": "thumbnail_source",
+      "type": "Boolean",
+      "required": true,
+      "description": "Preferred Source for Actor thumbnail"
+    },
+    {
+      "name": "alt_thumbnail_source",
+      "type": "Boolean",
+      "required": true,
+      "description": "Preferred Source for Actor alternate thumbnail"
+    },
+    {
+      "name": "hero_img_source",
+      "type": "Boolean",
+      "required": true,
+      "description": "Preferred Source for Actor Hero Cover Banner Image"
+    },
+    {
+      "name": "nationality_source",
+      "type": "Boolean",
+      "required": true,
+      "description": "Preferred Source for Actor Nationality"
+    },
+    {
+      "name": "use_next_source_on_failure",
+      "type": "Boolean",
+      "required": true,
+      "description": "Use data from another source if not available from preferred source. (NOT IMPLEMENTED)"
+    },
+    {
+      "name": "prefer_metric",
+      "type": "Boolean",
+      "required": true,
+      "description": "Set Height and Weight Units in Metric if set to true."
+    },
+    {
+      "name": "source_settings",
+      "type": "Dict",
+      "required": true,
+      "description": "Source-specific settings"
+    },
+    {
+      "name": "source_settings.freeones",
+      "type": "Dict",
+      "required": true,
+      "description": "FreeOnes-specific settings"
+    },
+    {
+      "name": "source_settings.freeones.enabled",
+      "type": "Boolean",
+      "required": true,
+      "description": "Toggle FreeOnes as a Source"
+    },
+    {
+      "name": "source_settings.freeones.get_aliases",
+      "type": "Boolean",
+      "required": true,
+      "description": "Get Aliases from FreeOnes"
+    },
+    {
+      "name": "source_settings.freeones.custom_field_map",
+      "type": "Dict",
+      "required": true,
+      "description": "Custom Fields available from FreeOnes"
+    },
+    {
+      "name": "source_settings.freeones.custom_field_map.birthplace",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Birthplace"
+    },
+    {
+      "name": "source_settings.freeones.custom_field_map.eye_color",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Eye Color"
+    },
+    {
+      "name": "source_settings.freeones.custom_field_map.ethnicity",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Ethnicity"
+    },
+    {
+      "name": "source_settings.freeones.custom_field_map.hair_colour",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Hair Color"
+    },
+    {
+      "name": "source_settings.babepedia",
+      "type": "Dict",
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "source_settings.babepedia.enabled",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts Information from BabePedia if set"
+    },
+    {
+      "name": "source_settings.babepedia.get_aliases",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts Aliases if set"
+    },
+    {
+      "name": "source_settings.babepedia.custom_field_map",
+      "type": "Dict",
+      "required": true,
+      "description": "Custom Field Mappings for BabePedia"
+    },
+    {
+      "name": "source_settings.tpdb",
+      "type": "Dict",
+      "required": true,
+      "description": "TPDB-specific settings"
+    },
+    {
+      "name": "source_settings.tpdb.enabled",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts Information from TPDB if set"
+    },
+    {
+      "name": "source_settings.tpdb.extract_only_if_source_matches_name_exactly",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts information from TPDB ONLY if result matches actor name exactly."
+    },
+    {
+      "name": "source_settings.tpdb.get_performer_bio",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts Actor bio if set"
+    },
+    {
+      "name": "source_settings.tpdb.get_all_bios",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts ALL actor Bios from TPDB and concatenates them into one"
+    },
+    {
+      "name": "source_settings.tpdb.get_aliases",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts Actor Aliases if set"
+    },
+    {
+      "name": "source_settings.tpdb.get_all_images",
+      "type": "Boolean",
+      "required": true,
+      "description": "Downloads ALL images from TPDB if set"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map",
+      "type": "Dict",
+      "required": true,
+      "description": "Custom field mappings for TPDB"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.gender",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Gender"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.birthplace",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Birthplace"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.active",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for whether Actor is currently Active or not"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.astrology",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Astrological Sign"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.ethnicity",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Ethnicity"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.hair_colour",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Hair Color"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.weight",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Weight"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.height",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Height"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.measurements",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Measurements"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.cupsize",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Cup Size"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.tattoos",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Tattoos"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.piercings",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Piercings"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.waist",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Waist"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.hips",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Hips"
+    },
+    {
+      "name": "source_settings.tpdb.custom_field_map.chest_size",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Chest Size"
+    },
+    {
+      "name": "source_settings.wikiporno",
+      "type": "Dict",
+      "required": true,
+      "description": "Wikiporno-specific Settings"
+    },
+    {
+      "name": "source_settings.wikiporno.enabled",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts information from WikiPorno if set"
+    },
+    {
+      "name": "source_settings.wikiporno.get_aliases",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts Aliases from WikiPorno if set"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map",
+      "type": "Dict",
+      "required": true,
+      "description": "Custom Field Mapping for WikiPorno"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.measurements",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Measurements"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.cupsize",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Cup Size"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.tattoos",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Tattoos"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.piercings",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Piercings"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.birthplace",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Birthplace"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.weight",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Weight"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.height",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Height"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.eyeColor",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Eye Color"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.hairColor",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Hair Color"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.ethnicity",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Ethnicity"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.astrology",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Astrological Sign"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.years_active",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Years Active in the industry"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.waist",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Waist"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.hips",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Hips"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.chest_size",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Chest Size"
+    },
+    {
+      "name": "source_settings.wikiporno.custom_field_map.twitter",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Twitter Account"
+    },
+    {
+      "name": "source_settings.pornhub",
+      "type": "Dict",
+      "required": true,
+      "description": "PornHub-specific settings"
+    },
+    {
+      "name": "source_settings.pornhub.enabled",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts information from PornHub if set"
+    },
+    {
+      "name": "source_settings.pornhub.get_gifs",
+      "type": "Boolean",
+      "required": true,
+      "description": "Extracts GIFs from PornHub if set"
+    },
+    {
+      "name": "source_settings.pornhub.download_gifs_max_count",
+      "type": "Integer",
+      "required": true,
+      "description": "Total GIFs to download for actor from PornHub"
+    },
+    {
+      "name": "source_settings.pornhub.custom_field_map",
+      "type": "Dict",
+      "required": true,
+      "description": "Custom Field Mappings for PornHub"
+    },
+    {
+      "name": "source_settings.pornhub.custom_field_map.birthplace",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Birthplace"
+    },
+    {
+      "name": "source_settings.pornhub.custom_field_map.height",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Height"
+    },
+    {
+      "name": "source_settings.pornhub.custom_field_map.weight",
+      "type": "String",
+      "required": true,
+      "description": "Field Mapping for Weight"
+    }
+  ]
+}

@@ -10,27 +10,20 @@ by {{ authors }}
 {{ docs }}
 {{/if}}
 {{#if hasArgs}}
+
 ### Arguments
 
 {{ argsTable }}
 {{/if}}
-### Example installation
+
+### Example installation with default arguments
 
 ```json
-{
-  "PLUGINS": {
-    "{{ name }}": {
-      "path": "./plugins/{{ name }}/main.js",
-      "args": {}
-    }
-  }
-}
+---
+{{{ exampleJSON }}}
 ```
 
 ```yaml
 ---
-PLUGINS:
-  "{{ name }}":
-    path: "./plugins/{{ name }}/main.js"
-    args: {}
+{{{ exampleYAML }}}
 ```

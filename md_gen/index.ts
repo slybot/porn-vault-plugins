@@ -2,6 +2,9 @@ import * as fs from "fs";
 import * as nodepath from "path";
 import Handlebars from "handlebars";
 const table = require("markdown-table") as (val: any) => any;
+import YAML from "yaml";
+
+import { setIn } from "./util";
 
 const pluginTemplate = fs.readFileSync("plugin_template.md", "utf-8");
 
@@ -9,6 +12,56 @@ const pluginFolder = nodepath.resolve("../plugins");
 const pluginNames = fs.readdirSync(pluginFolder);
 
 const info: Record<string, any> = {};
+
+interface PluginArg {
+  name: string;
+  type: boolean;
+  required: boolean;
+  default?: any;
+  description?: string;
+}
+
+interface PluginInfo {
+  name: string;
+  version: string;
+  authors: string[];
+  description: string;
+  arguments: PluginArg[];
+}
+
+function generateDefaultPluginArguments(pluginArgs: PluginArg[]) {
+  const args: Record<string, any> = {};
+
+  (pluginArgs || []).forEach((pluginArg) => {
+    const defaultValue = Object.hasOwnProperty.call(pluginArg, "default")
+      ? pluginArg.default
+      : null;
+
+    try {
+      setIn(args, pluginArg.name, defaultValue);
+    } catch (err) {
+      console.log(
+        "There seems to be an error in the nesting of your default arguments in info.json"
+      );
+      console.error(err);
+    }
+  });
+
+  return args;
+}
+
+function generatePluginExample(pluginInfo: PluginInfo) {
+  const defaultArgs = generateDefaultPluginArguments(pluginInfo.arguments);
+
+  return {
+    PLUGINS: {
+      [pluginInfo.name]: {
+        path: `./plugins/${pluginInfo.name}/main.js`,
+        args: defaultArgs,
+      },
+    },
+  };
+}
 
 const generatePluginDocs = () => {
   pluginNames.forEach((name) => {
@@ -25,6 +78,11 @@ const generatePluginDocs = () => {
       : null;
 
     const tableHeaders = ["Name", "Type", "Required", "Description"];
+
+    const example = generatePluginExample(pluginInfo);
+    const exampleJSON = JSON.stringify(example, null, 2);
+    const exampleYAML = YAML.stringify(example, { simpleKeys: true });
+
     const rendered = Handlebars.compile(pluginTemplate)({
       name,
       version: pluginInfo.version,
@@ -41,6 +99,8 @@ const generatePluginDocs = () => {
           arg.description,
         ]),
       ]),
+      exampleJSON,
+      exampleYAML,
     });
     const readmePath = nodepath.join(pluginPath, "README.md");
     fs.writeFileSync(readmePath, rendered, "utf-8");

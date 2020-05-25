@@ -3,20 +3,26 @@
 by boi123212321
 
 Filter labels returned by other plugins
+
 ### Arguments
 
 | Name      | Type          | Required | Description       |
 | --------- | ------------- | -------- | ----------------- |
 | whitelist | Array&lt;String&gt; | false    | Labels to include |
 | blacklist | Array&lt;String&gt; | false    | Labels to exclude |
+
 ### Example installation
 
 ```json
+---
 {
   "PLUGINS": {
     "label_filter": {
       "path": "./plugins/label_filter/main.js",
-      "args": {}
+      "args": {
+        "whitelist": [],
+        "blacklist": []
+      }
     }
   }
 }
@@ -25,7 +31,10 @@ Filter labels returned by other plugins
 ```yaml
 ---
 PLUGINS:
-  "label_filter":
-    path: "./plugins/label_filter/main.js"
-    args: {}
+  label_filter:
+    path: ./plugins/label_filter/main.js
+    args:
+      whitelist: []
+      blacklist: []
+
 ```

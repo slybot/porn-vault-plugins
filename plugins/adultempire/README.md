@@ -3,19 +3,24 @@
 by boi123212321
 
 Scrape data from adultempire
+
 ### Arguments
 
 | Name | Type    | Required | Description                    |
 | ---- | ------- | -------- | ------------------------------ |
 | dry  | Boolean | false    | Whether to commit data changes |
+
 ### Example installation
 
 ```json
+---
 {
   "PLUGINS": {
     "adultempire": {
       "path": "./plugins/adultempire/main.js",
-      "args": {}
+      "args": {
+        "dry": false
+      }
     }
   }
 }
@@ -24,7 +29,9 @@ Scrape data from adultempire
 ```yaml
 ---
 PLUGINS:
-  "adultempire":
-    path: "./plugins/adultempire/main.js"
-    args: {}
+  adultempire:
+    path: ./plugins/adultempire/main.js
+    args:
+      dry: false
+
 ```

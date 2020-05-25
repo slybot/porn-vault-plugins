@@ -12,8 +12,10 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^14.0.1",
+    "@types/yaml": "^1.9.7",
     "ts-node": "^8.10.1",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.2",
+    "yaml": "^1.10.0"
   },
   "dependencies": {
     "handlebars": "^4.7.6",

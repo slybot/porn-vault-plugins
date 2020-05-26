@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "authors": ["boi123212321"],
   "description": "Scrape data from adultempire",
+  "pluginEvents": ["movieCreated"],
   "arguments": [
     {
       "name": "dry",

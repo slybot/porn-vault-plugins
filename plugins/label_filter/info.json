@@ -3,6 +3,13 @@
   "version": "0.0.1",
   "authors": ["boi123212321"],
   "description": "Filter labels returned by other plugins",
+  "pluginEvents": [
+    "actorCreated",
+    "actorCustom",
+    "sceneCreated",
+    "sceneCustom",
+    "movieCreated"
+  ],
   "arguments": [
     {
       "name": "whitelist",

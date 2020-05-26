@@ -18,12 +18,16 @@ by {{ authors }}
 
 ### Example installation with default arguments
 
+`config.json`
 ```json
 ---
 {{{ exampleJSON }}}
+---
 ```
 
+`config.yaml`
 ```yaml
 ---
 {{{ exampleYAML }}}
+---
 ```

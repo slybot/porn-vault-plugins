@@ -1,8 +1,8 @@
 ## Porn Vault plugins
 
-| Plugin       | Description                                                                                                                                                          |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| adultempire  | Scrape data from adultempire                                                                                                                                         |
-| freeones     | Scrape data from freeones.xxx. Custom fields can only be named as follows (not case sensitive): Hair Color, Eye Color, Ethnicity, Height, Weight, Birthplace, Zodiac |
-| label_filter | Filter labels returned by other plugins                                                                                                                              |
-| profile_pics | Find actor images based on local files. GIF support.                                                                                                                 |
+| Plugin                                                                                                        | Description                                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [adultempire](https://github.com/boi123212321/porn-vault-plugins/blob/master/plugins/adultempire/README.md)   | Scrape data from adultempire                                                                                                                                         |
+| [freeones](https://github.com/boi123212321/porn-vault-plugins/blob/master/plugins/freeones/README.md)         | Scrape data from freeones.xxx. Custom fields can only be named as follows (not case sensitive): Hair Color, Eye Color, Ethnicity, Height, Weight, Birthplace, Zodiac |
+| [label_filter](https://github.com/boi123212321/porn-vault-plugins/blob/master/plugins/label_filter/README.md) | Filter labels returned by other plugins                                                                                                                              |
+| [profile_pics](https://github.com/boi123212321/porn-vault-plugins/blob/master/plugins/profile_pics/README.md) | Find actor images based on local files. GIF support.                                                                                                                 |

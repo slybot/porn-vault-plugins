@@ -13,8 +13,9 @@ Find actor images based on local files. GIF support.
 | path_avatar | String | true     | Folder to search avatar images in        |
 | path_hero   | String | true     | Folder to search hero images in          |
 
-### Example installation
+### Example installation with default arguments
 
+`config.json`
 ```json
 ---
 {
@@ -28,10 +29,20 @@ Find actor images based on local files. GIF support.
         "path_hero": null
       }
     }
+  },
+  "PLUGIN_EVENTS": {
+    "actorCreated": [
+      "profile_pics"
+    ],
+    "actorCustom": [
+      "profile_pics"
+    ]
   }
 }
+---
 ```
 
+`config.yaml`
 ```yaml
 ---
 PLUGINS:
@@ -42,5 +53,11 @@ PLUGINS:
       path_alt: null
       path_avatar: null
       path_hero: null
+PLUGIN_EVENTS:
+  actorCreated:
+    - profile_pics
+  actorCustom:
+    - profile_pics
 
+---
 ```

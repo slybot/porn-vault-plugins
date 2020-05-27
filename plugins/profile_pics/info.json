@@ -1,8 +1,9 @@
 {
   "name": "profile_pics",
   "version": "1.1.0",
-  "authors": ["boi123212321","john4valor"],
+  "authors": ["boi123212321", "john4valor"],
   "description": "Find actor images based on local files. GIF support.",
+  "pluginEvents": ["actorCreated"],
   "arguments": [
     {
       "name": "path_thumb",

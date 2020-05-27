@@ -6,13 +6,6 @@ import YAML from "yaml";
 
 import { setIn } from "./util";
 
-const pluginTemplate = fs.readFileSync("plugin_template.md", "utf-8");
-
-const pluginFolder = nodepath.resolve("../plugins");
-const pluginNames = fs.readdirSync(pluginFolder);
-
-const info: Record<string, any> = {};
-
 interface PluginArg {
   name: string;
   type: boolean;
@@ -21,13 +14,28 @@ interface PluginArg {
   description?: string;
 }
 
+type PluginEvents =
+  | "actorCreated"
+  | "actorCustom"
+  | "sceneCreated"
+  | "sceneCustom"
+  | "movieCreated";
+
 interface PluginInfo {
   name: string;
   version: string;
   authors: string[];
   description: string;
+  pluginEvents: PluginEvents[];
   arguments: PluginArg[];
 }
+
+const pluginTemplate = fs.readFileSync("plugin_template.md", "utf-8");
+
+const pluginFolder = nodepath.resolve("../plugins");
+const pluginDirNames = fs.readdirSync(pluginFolder);
+
+const info: Record<string, PluginInfo> = {};
 
 function generateDefaultPluginArguments(pluginArgs: PluginArg[]) {
   const args: Record<string, any> = {};
@@ -50,8 +58,23 @@ function generateDefaultPluginArguments(pluginArgs: PluginArg[]) {
   return args;
 }
 
+function generatePluginEvents(pluginName: string, pluginEvents: string[]) {
+  const events: Record<string, string[]> = {};
+
+  pluginEvents.forEach((eventName) => {
+    events[eventName] = [pluginName];
+  });
+
+  return events;
+}
+
 function generatePluginExample(pluginInfo: PluginInfo) {
   const defaultArgs = generateDefaultPluginArguments(pluginInfo.arguments);
+
+  const pluginEvents = generatePluginEvents(
+    pluginInfo.name,
+    pluginInfo.pluginEvents
+  );
 
   return {
     PLUGINS: {
@@ -60,17 +83,20 @@ function generatePluginExample(pluginInfo: PluginInfo) {
         args: defaultArgs,
       },
     },
+    PLUGIN_EVENTS: pluginEvents,
   };
 }
 
 const generatePluginDocs = () => {
-  pluginNames.forEach((name) => {
-    console.log(`Generating docs for ${name}...`);
-    const pluginPath = nodepath.join(pluginFolder, name);
+  pluginDirNames.forEach((pluginDirName) => {
+    console.log(`Generating docs for ${pluginDirName}...`);
+    const pluginPath = nodepath.join(pluginFolder, pluginDirName);
 
     const infoPath = nodepath.join(pluginPath, "info.json");
-    const pluginInfo = JSON.parse(fs.readFileSync(infoPath, "utf-8"));
-    info[name] = pluginInfo;
+    const pluginInfo = JSON.parse(
+      fs.readFileSync(infoPath, "utf-8")
+    ) as PluginInfo;
+    info[pluginDirName] = pluginInfo;
 
     const docPath = nodepath.join(pluginPath, "docs.md");
     const docs = fs.existsSync(docPath)
@@ -84,7 +110,7 @@ const generatePluginDocs = () => {
     const exampleYAML = YAML.stringify(example, { simpleKeys: true });
 
     const rendered = Handlebars.compile(pluginTemplate)({
-      name,
+      name: pluginInfo.name,
       version: pluginInfo.version,
       description: pluginInfo.description,
       authors: pluginInfo.authors,
@@ -104,7 +130,7 @@ const generatePluginDocs = () => {
     });
     const readmePath = nodepath.join(pluginPath, "README.md");
     fs.writeFileSync(readmePath, rendered, "utf-8");
-    console.log(`${name} done`);
+    console.log(`${pluginDirName} done`);
   });
 
   console.log("Generating index...");
@@ -114,9 +140,13 @@ const generatePluginDocs = () => {
   const rendered = Handlebars.compile(indexTemplate)({
     table: table([
       tableHeaders,
-      ...Object.values(info).map((arg: any) => [arg.name, arg.description]),
+      ...Object.entries(info).map(([pluginDirName, pluginInfo]) => [
+        `[${pluginInfo.name}](https://github.com/boi123212321/porn-vault-plugins/blob/master/plugins/${pluginDirName}/README.md)`,
+        pluginInfo.description,
+      ]),
     ]),
   });
+
   const indexReadmePath = nodepath.resolve("../README.md");
   fs.writeFileSync(indexReadmePath, rendered, "utf-8");
   console.log(`Index done`);

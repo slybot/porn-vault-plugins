@@ -10,8 +10,9 @@ Scrape data from adultempire
 | ---- | ------- | -------- | ------------------------------ |
 | dry  | Boolean | false    | Whether to commit data changes |
 
-### Example installation
+### Example installation with default arguments
 
+`config.json`
 ```json
 ---
 {
@@ -22,10 +23,17 @@ Scrape data from adultempire
         "dry": false
       }
     }
+  },
+  "PLUGIN_EVENTS": {
+    "movieCreated": [
+      "adultempire"
+    ]
   }
 }
+---
 ```
 
+`config.yaml`
 ```yaml
 ---
 PLUGINS:
@@ -33,5 +41,9 @@ PLUGINS:
     path: ./plugins/adultempire/main.js
     args:
       dry: false
+PLUGIN_EVENTS:
+  movieCreated:
+    - adultempire
 
+---
 ```

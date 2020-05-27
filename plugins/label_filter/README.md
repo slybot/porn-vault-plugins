@@ -11,8 +11,9 @@ Filter labels returned by other plugins
 | whitelist | Array&lt;String&gt; | false    | Labels to include |
 | blacklist | Array&lt;String&gt; | false    | Labels to exclude |
 
-### Example installation
+### Example installation with default arguments
 
+`config.json`
 ```json
 ---
 {
@@ -24,10 +25,29 @@ Filter labels returned by other plugins
         "blacklist": []
       }
     }
+  },
+  "PLUGIN_EVENTS": {
+    "actorCreated": [
+      "label_filter"
+    ],
+    "actorCustom": [
+      "label_filter"
+    ],
+    "sceneCreated": [
+      "label_filter"
+    ],
+    "sceneCustom": [
+      "label_filter"
+    ],
+    "movieCreated": [
+      "label_filter"
+    ]
   }
 }
+---
 ```
 
+`config.yaml`
 ```yaml
 ---
 PLUGINS:
@@ -36,5 +56,17 @@ PLUGINS:
     args:
       whitelist: []
       blacklist: []
+PLUGIN_EVENTS:
+  actorCreated:
+    - label_filter
+  actorCustom:
+    - label_filter
+  sceneCreated:
+    - label_filter
+  sceneCustom:
+    - label_filter
+  movieCreated:
+    - label_filter
 
+---
 ```

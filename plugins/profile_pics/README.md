@@ -33,9 +33,6 @@ Find actor images based on local files. GIF support.
   "PLUGIN_EVENTS": {
     "actorCreated": [
       "profile_pics"
-    ],
-    "actorCustom": [
-      "profile_pics"
     ]
   }
 }
@@ -55,8 +52,6 @@ PLUGINS:
       path_hero: null
 PLUGIN_EVENTS:
   actorCreated:
-    - profile_pics
-  actorCustom:
     - profile_pics
 
 ---

@@ -12,11 +12,24 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.1.2"
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-chai-friendly": "^0.6.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-mocha": "^7.0.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "mocha": "^7.1.2",
+    "prettier": "^2.0.5"
   },
   "scripts": {
     "check-info": "node check_info.js",
-    "test": "mocha plugins/**/*.spec.js --timeout 10000"
+    "test": "mocha plugins/**/*.spec.js --timeout 10000",
+    "lint": "eslint \"plugins/**/*.js\"",
+    "lint:fix": "eslint --quiet --fix \"plugins/**/*.js\""
   },
   "repository": {
     "type": "git",

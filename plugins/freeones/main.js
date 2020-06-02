@@ -22,12 +22,9 @@ module.exports = async ({
   $log,
   actorName,
 }) => {
-  if (!actorName)
-    $throw("Uh oh. You shouldn't use the plugin for this type of event");
+  if (!actorName) $throw("Uh oh. You shouldn't use the plugin for this type of event");
 
-  $log(
-    `Scraping freeones date for ${actorName}, dry mode: ${args.dry || false}...`
-  );
+  $log(`Scraping freeones date for ${actorName}, dry mode: ${args.dry || false}...`);
 
   const blacklist = (args.blacklist || []).map(lowercase);
   if (!args.blacklist) $log("No blacklist defined, returning everything...");
@@ -36,7 +33,7 @@ module.exports = async ({
     return blacklist.includes(lowercase(prop));
   }
 
-  //Check imperial unit preference
+  // Check imperial unit preference
   const useImperial = args.useImperial;
   if (!useImperial) {
     $log("Imperial preference not set. Using metric values...");
@@ -60,9 +57,7 @@ module.exports = async ({
     if (isBlacklisted("nationality")) return {};
     $log("Getting nationality...");
 
-    const selector = $(
-      '[data-test="section-personal-information"] a[href*="countryCode%5D"]'
-    );
+    const selector = $('[data-test="section-personal-information"] a[href*="countryCode%5D"]');
 
     if (!selector.length) {
       $log("Nationality not found");
@@ -88,7 +83,7 @@ module.exports = async ({
     const rawHeight = $(selector).text();
     const cm = rawHeight.match(/\d+cm/)[0];
     if (!cm) return {};
-    let height = parseInt(cm.replace("cm", ""));
+    const height = parseInt(cm.replace("cm", ""));
     if (!useImperial) return { height };
 
     // Convert to imperial
@@ -105,7 +100,7 @@ module.exports = async ({
     const rawWeight = $(selector).text();
     const kg = rawWeight.match(/\d+kg/)[0];
     if (!kg) return {};
-    let weight = parseInt(kg.replace("kg", ""));
+    const weight = parseInt(kg.replace("kg", ""));
     if (!useImperial) return { weight };
 
     // Convert to imperial
@@ -127,20 +122,14 @@ module.exports = async ({
     if (isBlacklisted("birthplace")) return {};
     $log("Getting birthplace...");
 
-    const selector = $(
-      '[data-test="section-personal-information"] a[href*="placeOfBirth"]'
-    );
-    const cityName = selector.length
-      ? $(selector).attr("href").split("=").slice(-1)[0]
-      : null;
+    const selector = $('[data-test="section-personal-information"] a[href*="placeOfBirth"]');
+    const cityName = selector.length ? $(selector).attr("href").split("=").slice(-1)[0] : null;
 
     if (!cityName) {
       $log("No birthplace found");
       return {};
     } else {
-      const stateSelector = $(
-        '[data-test="section-personal-information"] a[href*="province"]'
-      );
+      const stateSelector = $('[data-test="section-personal-information"] a[href*="province"]');
       const stateName = stateSelector.length
         ? $(stateSelector).attr("href").split("=").slice(-1)[0]
         : null;
@@ -148,7 +137,7 @@ module.exports = async ({
         $log("No birth province found, just city!");
         return { birthplace: cityName };
       } else {
-        let bplace = cityName + ", " + stateName.split("-")[0].trim();
+        const bplace = cityName + ", " + stateName.split("-")[0].trim();
         return { birthplace: bplace };
       }
     }
@@ -204,31 +193,19 @@ module.exports = async ({
     if (isBlacklisted("aliases")) return {};
     $log("Getting aliases...");
 
-    const alias_sel = $(
-      '[data-test="section-alias"] p[data-test*="p_aliases"]'
-    );
-    const alias_text = alias_sel.text();
-    const alias_name =
-      alias_text && !/unknown/.test(alias_text) ? alias_text.trim() : null;
-    if (!alias_name) return {};
-    const alias_fin = alias_name.split(/,\s*/g);
+    const aliasSel = $('[data-test="section-alias"] p[data-test*="p_aliases"]');
+    const aliasText = aliasSel.text();
+    const aliasName = aliasText && !/unknown/.test(aliasText) ? aliasText.trim() : null;
+    if (!aliasName) return {};
+    const aliases = aliasName.split(/,\s*/g);
 
-    return { aliases: alias_fin };
+    return { aliases };
   }
 
   const custom = {
-    ...scrapeText(
-      "hair color",
-      '[data-test="link_hair_color"] .text-underline-always'
-    ),
-    ...scrapeText(
-      "eye color",
-      '[data-test="link_eye_color"] .text-underline-always'
-    ),
-    ...scrapeText(
-      "ethnicity",
-      '[data-test="link_ethnicity"] .text-underline-always'
-    ),
+    ...scrapeText("hair color", '[data-test="link_hair_color"] .text-underline-always'),
+    ...scrapeText("eye color", '[data-test="link_eye_color"] .text-underline-always'),
+    ...scrapeText("ethnicity", '[data-test="link_ethnicity"] .text-underline-always'),
     ...getHeight(),
     ...getWeight(),
     ...getBirthplace(),

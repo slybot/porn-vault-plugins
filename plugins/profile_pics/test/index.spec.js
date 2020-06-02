@@ -27,7 +27,7 @@ describe("adultempire", () => {
     expect(result.thumbnail).to.be.undefined;
   });
 
-  it("Should find a thumbnail", async () => {
+  it("Should find a thumbnail 2", async () => {
     const result = await plugin({
       ...context,
       actorName: "001",
@@ -39,7 +39,7 @@ describe("adultempire", () => {
     expect(result.hero).to.be.a("string");
   });
 
-  it("Should find no image", async () => {
+  it("Should find no image 2", async () => {
     const result = await plugin({
       ...context,
       actorName: "003",

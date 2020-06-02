@@ -12,7 +12,7 @@ module.exports = ({ args, data }) => {
     labels: data.labels.filter((label) => {
       const lowercased = lower(label);
       if (whitelist.length && !whitelist.includes(label)) return false;
-      return blacklist.every((blacklisted) => blacklisted != lowercased);
+      return blacklist.every((blacklisted) => blacklisted !== lowercased);
     }),
   };
 };

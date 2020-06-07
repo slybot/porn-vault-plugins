@@ -12,16 +12,26 @@ function kgToLbs(kg) {
   return Math.round((kg + Number.EPSILON) * 100) / 100;
 }
 
-module.exports = async ({
-  $createImage,
-  args,
-  $axios,
-  $moment,
-  $cheerio,
-  $throw,
-  $log,
-  actorName,
-}) => {
+async function search({ $axios }, query) {
+  const url = `https://www.freeones.xxx/partial/subject`;
+  return (
+    await $axios.get(url, {
+      params: {
+        q: query,
+      },
+    })
+  ).data;
+}
+
+async function getFirstSearchResult(ctx, query) {
+  const searchHtml = await search(ctx, query);
+  const $ = ctx.$cheerio.load(searchHtml);
+  const el = $(".grid-item.teaser-subject>a");
+  return el;
+}
+
+module.exports = async (ctx) => {
+  const { $createImage, args, $axios, $moment, $cheerio, $throw, $log, actorName } = ctx;
   if (!actorName) $throw("Uh oh. You shouldn't use the plugin for this type of event");
 
   $log(`Scraping freeones date for ${actorName}, dry mode: ${args.dry || false}...`);
@@ -41,16 +51,23 @@ module.exports = async ({
     $log("Imperial preference indicated. Using imperial values...");
   }
 
-  /* const petiteThreshold = parseInt(args.petiteThreshold) || 160; */
-
-  const url = `https://freeones.xxx/${actorName.replace(/ /g, "-")}/profile`;
-  let html;
+  let firstResult;
   try {
-    html = (await $axios.get(url)).data;
-  } catch (e) {
-    $throw("Error fetching url: " + e.message);
+    firstResult = await getFirstSearchResult(ctx, actorName);
+  } catch (error) {
+    $throw(error.message);
   }
 
+  if (!firstResult) $throw(`${actorName} not found!`);
+
+  const href = firstResult.attr("href");
+
+  let html;
+  try {
+    html = (await $axios.get(`https://freeones.xxx${href}/profile`)).data;
+  } catch (error) {
+    $throw(error.message);
+  }
   const $ = $cheerio.load(html);
 
   function getNationality() {
@@ -225,8 +242,6 @@ module.exports = async ({
     if (custom["hair color"]) data.labels.push(`${custom["hair color"]} Hair`);
     if (custom["eye color"]) data.labels.push(`${custom["eye color"]} Eyes`);
     if (custom.ethnicity) data.labels.push(custom.ethnicity);
-    /* if (custom.height && custom.height <= petiteThreshold)
-      data.labels.push("Petite"); */
   }
 
   if (args.dry === true) {

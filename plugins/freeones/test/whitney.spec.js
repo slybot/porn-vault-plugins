@@ -10,10 +10,39 @@ function searchWhitney(args = {}) {
   });
 }
 
+function searchWhitneyKindaWrongThough(args = {}) {
+  return plugin({
+    ...context,
+    actorName: "Whitney Wri",
+    args,
+  });
+}
+
 describe("freeones", () => {
   it("Search 'Whitney Wright'", async () => {
     console.log("Fetching freeones.xxx...");
     const result = await searchWhitney();
+    expect(result.custom).to.deep.equal({
+      "hair color": "Brown",
+      "eye color": "Hazel",
+      ethnicity: "Caucasian",
+      height: 168,
+      weight: 57,
+      birthplace: "Oklahoma City, OK",
+      zodiac: "Virgo",
+    });
+    expect(result.nationality).to.equal("US");
+    expect(result.bornOn).to.be.a("number");
+    expect(result.avatar).to.be.a("string");
+    expect(result.labels).to.have.length.greaterThan(0);
+    expect(result.labels).to.contain("Brown Hair");
+    expect(result.labels).to.contain("Hazel Eyes");
+    expect(result.labels).to.contain("Caucasian");
+  });
+
+  it("Search 'Whitney Wri'", async () => {
+    console.log("Fetching freeones.xxx...");
+    const result = await searchWhitneyKindaWrongThough();
     expect(result.custom).to.deep.equal({
       "hair color": "Brown",
       "eye color": "Hazel",

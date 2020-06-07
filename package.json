@@ -26,7 +26,9 @@
     "prettier": "^2.0.5"
   },
   "scripts": {
+    "doc": "cd md_gen && npm start",
     "check-info": "node check_info.js",
+    "test:freeones": "mocha plugins/freeones/**/*.spec.js --timeout 10000",
     "test": "mocha plugins/**/*.spec.js --timeout 10000",
     "lint": "eslint \"plugins/**/*.js\"",
     "lint:fix": "eslint --quiet --fix \"plugins/**/*.js\""

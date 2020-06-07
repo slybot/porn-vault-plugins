@@ -19,10 +19,7 @@ export function setIn(object: Record<string, any>, path: string, value: any) {
     // Set an empty object if no value exists
     if (!Object.hasOwnProperty.call(currentObject, name)) {
       currentObject[name] = {};
-    } else if (
-      typeof currentObject[name] !== "object" ||
-      !currentObject[name]
-    ) {
+    } else if (typeof currentObject[name] !== "object" || !currentObject[name]) {
       throw new Error(
         `${JSON.stringify(
           currentObject

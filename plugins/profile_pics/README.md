@@ -1,6 +1,6 @@
 ## profile_pics 1.1.0
 
-by boi123212321,john4valor
+by boi123212321, john4valor
 
 Find actor images based on local files. GIF support.
 

@@ -71,10 +71,7 @@ function generatePluginEvents(pluginName: string, pluginEvents: string[]) {
 function generatePluginExample(pluginInfo: PluginInfo) {
   const defaultArgs = generateDefaultPluginArguments(pluginInfo.arguments);
 
-  const pluginEvents = generatePluginEvents(
-    pluginInfo.name,
-    pluginInfo.pluginEvents
-  );
+  const pluginEvents = generatePluginEvents(pluginInfo.name, pluginInfo.pluginEvents);
 
   return {
     PLUGINS: {
@@ -93,15 +90,11 @@ const generatePluginDocs = () => {
     const pluginPath = nodepath.join(pluginFolder, pluginDirName);
 
     const infoPath = nodepath.join(pluginPath, "info.json");
-    const pluginInfo = JSON.parse(
-      fs.readFileSync(infoPath, "utf-8")
-    ) as PluginInfo;
+    const pluginInfo = JSON.parse(fs.readFileSync(infoPath, "utf-8")) as PluginInfo;
     info[pluginDirName] = pluginInfo;
 
     const docPath = nodepath.join(pluginPath, "docs.md");
-    const docs = fs.existsSync(docPath)
-      ? fs.readFileSync(docPath, "utf-8")
-      : null;
+    const docs = fs.existsSync(docPath) ? fs.readFileSync(docPath, "utf-8") : null;
 
     const tableHeaders = ["Name", "Type", "Required", "Description"];
 
@@ -113,7 +106,7 @@ const generatePluginDocs = () => {
       name: pluginInfo.name,
       version: pluginInfo.version,
       description: pluginInfo.description,
-      authors: pluginInfo.authors,
+      authors: pluginInfo.authors.join(", "),
       docs,
       hasArgs: pluginInfo.arguments && pluginInfo.arguments.length,
       argsTable: table([

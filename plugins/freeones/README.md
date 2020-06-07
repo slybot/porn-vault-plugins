@@ -1,6 +1,6 @@
-## freeones 0.4.0
+## freeones 0.4.1
 
-by boi123212321,john4valor
+by boi123212321, john4valor
 
 Scrape data from freeones.xxx. Custom fields can only be named as follows (not case sensitive): Hair Color, Eye Color, Ethnicity, Height, Weight, Birthplace, Zodiac
 

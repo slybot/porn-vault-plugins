@@ -189,12 +189,12 @@ module.exports = async (ctx) => {
     const url = $(imgEl).attr("src");
     const imgId = await $createImage(url, `${actorName} (avatar)`);
 
-    if(!useAvatarAsThumbnail) {
+    if (!useAvatarAsThumbnail) {
       return { avatar: imgId };
     } else {
-      return { 
+      return {
         avatar: imgId,
-        thumbnail: imgId
+        thumbnail: imgId,
       };
     }
   }

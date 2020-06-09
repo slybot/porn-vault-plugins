@@ -51,6 +51,14 @@ module.exports = async (ctx) => {
     $log("Imperial preference indicated. Using imperial values...");
   }
 
+  // Check Use Avatar as Thumbnail preference
+  const useAvatarAsThumbnail = args.useAvatarAsThumbnail;
+  if (!useAvatarAsThumbnail) {
+    $log("Will not use the Avatar as the Actor Thumbnail...");
+  } else {
+    $log("Will use the Avatar as the Actor Thumbnail...");
+  }
+
   let firstResult;
   try {
     firstResult = await getFirstSearchResult(ctx, actorName);
@@ -181,7 +189,14 @@ module.exports = async (ctx) => {
     const url = $(imgEl).attr("src");
     const imgId = await $createImage(url, `${actorName} (avatar)`);
 
-    return { avatar: imgId };
+    if(!useAvatarAsThumbnail) {
+      return { avatar: imgId };
+    } else {
+      return { 
+        avatar: imgId,
+        thumbnail: imgId
+      };
+    }
   }
 
   function getAge() {

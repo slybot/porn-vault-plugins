@@ -25,6 +25,13 @@
       "required": false,
       "default": false,
       "description": "Use imperial units for height and weight (possible values: 'true', 'false')"
+    },
+    {
+      "name": "useAvatarAsThumbnail",
+      "type": "Boolean",
+      "required": false,
+      "default": false,
+      "description": "Use the discovered Actor Avatar as the Actor Thumbnail image (possible values: 'true', 'false')"
     }
   ]
 }

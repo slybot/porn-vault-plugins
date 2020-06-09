@@ -1,6 +1,6 @@
 {
   "name": "freeones",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "authors": ["boi123212321", "john4valor"],
   "description": "Scrape data from freeones.xxx. Custom fields can only be named as follows (not case sensitive): Hair Color, Eye Color, Ethnicity, Height, Weight, Birthplace, Zodiac",
   "pluginEvents": ["actorCreated", "actorCustom"],
@@ -24,14 +24,14 @@
       "type": "Boolean",
       "required": false,
       "default": false,
-      "description": "Use imperial units for height and weight (possible values: 'true', 'false')"
+      "description": "Use imperial units for height and weight"
     },
     {
       "name": "useAvatarAsThumbnail",
       "type": "Boolean",
       "required": false,
       "default": false,
-      "description": "Use the discovered Actor Avatar as the Actor Thumbnail image (possible values: 'true', 'false')"
+      "description": "Use the discovered Actor Avatar as the Actor Thumbnail image"
     }
   ]
 }

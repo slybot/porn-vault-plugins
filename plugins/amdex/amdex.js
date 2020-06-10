@@ -379,10 +379,12 @@ module.exports = async ({
             }
             if (element['alias_list'] !== undefined) {
                 element['alias_list'].forEach(al => {
-                    // Ensure duplicate aliases are not included
-                    if (!result['aliases'].includes(al)) {
-                        result['aliases'].push(al);
-                    }
+                     // Remove whitespace from alias
+                     al = al.trim();
+                     // Ensure duplicate aliases are not included
+                     if (!result['aliases'].includes(al)) {
+                         result['aliases'].push(al);
+                     }
                 });
             }
         }

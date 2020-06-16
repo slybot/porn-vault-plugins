@@ -592,9 +592,11 @@ module.exports = async ({
         // [EXTEND]: Add Custom Field Processing for your Source Here
     });
     // All data has been set in the results object at this point except for images
-    // Download GIFs
-    $log("[AMDX] MSG: Downloading GIFs");
-    result = await save_gifs_from_result(actorName, result);
+    // Download GIFs if required
+    if (src_config.pornhub.get_gifs && src_config.pornhub.download_gifs_max_count !== 0) {
+        $log("[AMDX] MSG: Downloading GIFs");
+        result = await save_gifs_from_result(actorName, result);
+    }
     // Download images and replace URLs with image ids in result object
     $log("[AMDX] MSG: Downloading Images");
     result = await save_images_from_result(actorName, result);
